@@ -6,25 +6,12 @@ class Source:
         self.source_name = source_name
         
 
+    # Translation
     async def translate(self, pixels_x, pixels_y):
-        data = await self._client.request(
-            "GetSceneItemId",
-            {
-                "sceneName": self.scene_name,
-                "sourceName": self.source_name
-            }
-        )
-        item_id = data["sceneItemId"]
-
-        transform = await self._client.request(
-            "GetSceneItemTransform",
-            {
-                "sceneName": self.scene_name,
-                "sceneItemId": item_id
-            }
-        )
-        current_x = transform["sceneItemTransform"]["positionX"]
-        current_y = transform["sceneItemTransform"]["positionY"]
+        item_id = await self._get_scene_item_id()
+        transform = await self._get_scene_item_transform(item_id)
+        current_x = transform["positionX"]
+        current_y = transform["positionY"]
 
         await self._client.request(
             "SetSceneItemTransform",
@@ -54,25 +41,28 @@ class Source:
     async def translate_down(self, pixels_y):
         await self.translate(0, pixels_y)
 
-    
-    async def rotate(self, degrees):
-        data = await self._client.request(
-            "GetSceneItemId",
-            {
-                "sceneName": self.scene_name,
-                "sourceName": self.source_name
-            }
-        )
-        item_id = data["sceneItemId"]
 
-        transform = await self._client.request(
-            "GetSceneItemTransform",
+    async def set_position(self, position_x, position_y):
+        item_id = await self._get_scene_item_id()
+
+        await self._client.request(
+            "SetSceneItemTransform",
             {
                 "sceneName": self.scene_name,
-                "sceneItemId": item_id
+                "sceneItemId": item_id,
+                "sceneItemTransform": {
+                    "positionX": position_x,
+                    "positionY": position_y
+                }
             }
         )
-        current_rotation = transform["sceneItemTransform"]["rotation"]
+
+    
+    # Rotation
+    async def rotate(self, degrees):
+        item_id = await self._get_scene_item_id()
+        transform = await self._get_scene_item_transform(item_id)
+        current_rotation = transform["rotation"]
 
         await self._client.request(
             "SetSceneItemTransform",
@@ -92,3 +82,116 @@ class Source:
 
     async def rotate_counterclockwise(self, degrees):
         await self.rotate(-degrees)
+
+
+    async def set_rotation(self, orientation):
+        item_id = await self._get_scene_item_id()
+
+        await self._client.request(
+            "SetSceneItemTransform",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemTransform": {
+                    "rotation": orientation % 360,
+                }
+            }
+        )
+
+
+    # Scale
+    async def scale(self, factor_X, factor_Y):
+        item_id = await self._get_scene_item_id()
+        transform = await self._get_scene_item_transform(item_id)
+        current_scale_X = transform["scaleX"]
+        current_scale_Y = transform["scaleY"]
+
+        await self._client.request(
+            "SetSceneItemTransform",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemTransform": {
+                    "scaleX": current_scale_X * factor_X,
+                    "scaleY": current_scale_Y * factor_Y,
+                }
+            }
+        )
+
+    
+    async def scale_X(self, factor_X):
+        await self.scale(factor_X, 1)
+
+
+    async def scale_Y(self, factor_Y):
+        await self.scale(1, factor_Y)
+
+    
+    async def set_scale(self, scale_X, scale_Y):
+        item_id = await self._get_scene_item_id()
+
+        await self._client.request(
+            "SetSceneItemTransform",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemTransform": {
+                    "scaleX": scale_X,
+                    "scaleY": scale_Y,
+                }
+            }
+        )
+
+    
+    async def set_scale_X(self, scale_X):
+        item_id = await self._get_scene_item_id()
+
+        await self._client.request(
+            "SetSceneItemTransform",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemTransform": {
+                    "scaleX": scale_X,
+                }
+            }
+        )
+
+
+    async def set_scale_Y(self, scale_Y):
+        item_id = await self._get_scene_item_id()
+
+        await self._client.request(
+            "SetSceneItemTransform",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemTransform": {
+                    "scaleY": scale_Y,
+                }
+            }
+        )
+
+
+    # Helper functions:
+    async def _get_scene_item_id(self):
+        data = await self._client.request(
+            "GetSceneItemId",
+            {
+                "sceneName": self.scene_name,
+                "sourceName": self.source_name
+            }
+        )
+        return data["sceneItemId"]
+    
+    async def _get_scene_item_transform(self, item_id):
+        transform = await self._client.request(
+            "GetSceneItemTransform",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id
+            }
+        )
+        return transform["sceneItemTransform"]
+    
+
