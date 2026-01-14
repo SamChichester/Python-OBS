@@ -207,6 +207,7 @@ class Source:
     async def crop_top(self, pixels):
         await self.crop(0, 0, 0, pixels)
 
+
     # Visibility
     async def hide(self):
         item_id = await self._get_scene_item_id()
@@ -245,8 +246,8 @@ class Source:
             }
         )
 
-    # Locking
 
+    # Locking
     async def lock(self):
         item_id = await self._get_scene_item_id()
 
