@@ -1,15 +1,24 @@
 """
-core.py
+clients.py
 
-High-level client for communicating with OBS Studio.
+High-level clients for communicating with OBS Studio.
 """
 
 from py_obs.client import OBSClient
 from py_obs.scene import Scene
 from py_obs.exceptions import OBSRequestError
-
+from py_obs.sync_utils import SyncProxy
 
 class OBS:
+    def __init__(self, host="localhost", port=4455, password=None):
+        async_client = OBSAsync(host, port, password)
+        self._proxy = SyncProxy(async_client)
+
+    def __getattr__(self, name):
+        return getattr(self._proxy, name)
+
+
+class OBSAsync:
     def __init__(self, host="localhost", port=4455, password=None):
         self._client = OBSClient(host, port, password)
 
