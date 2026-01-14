@@ -172,6 +172,41 @@ class Source:
             }
         )
 
+    
+    # Crop
+    async def crop(self, bottom, left, right, top):
+        item_id = await self._get_scene_item_id()
+
+        await self._client.request(
+            "SetSceneItemTransform",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemTransform": {
+                    "cropBottom": bottom,
+                    "cropLeft": left,
+                    "cropRight": right,
+                    "cropTop": top,
+                }
+            }
+        )
+
+
+    async def crop_bottom(self, pixels):
+        await self.crop(pixels, 0, 0, 0)
+
+
+    async def crop_left(self, pixels):
+        await self.crop(0, pixels, 0, 0)
+
+
+    async def crop_right(self, pixels):
+        await self.crop(0, 0, pixels, 0)
+
+
+    async def crop_top(self, pixels):
+        await self.crop(0, 0, 0, pixels)
+
 
     # Helper functions:
     async def _get_scene_item_id(self):
