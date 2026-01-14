@@ -5,6 +5,7 @@ High-level client for communicating with OBS Studio.
 """
 
 from .client import OBSClient
+from .scene import Scene
 
 
 class OBS:
@@ -16,5 +17,5 @@ class OBS:
         self._client.connect()
 
 
-    def scene(self):
-        raise NotImplementedError("Will be implemented later.")
+    def scene(self, name):
+        return Scene(self._client, name)
