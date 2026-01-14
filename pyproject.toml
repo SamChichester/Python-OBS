@@ -15,7 +15,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "TODO",
+    "websockets",
 ]
 
 [project.urls]
