@@ -56,7 +56,8 @@ class OBSClient:
 
         while True:
             msg = json.loads(await self.ws.recv())
-            if msg["op"] == 7 or msg["d"]["requestId"] == request_id:
-                if not msg["d"]["requestStatus"]["result"]:
-                    raise RuntimeError(msg["d"]["requestStatus"]["comment"])
-                return msg["d"].get("responseData")
+            if msg["op"] == 7 and msg["d"]["requestId"] == request_id:
+                status = msg["d"]["requestStatus"]
+                if not status["result"]:
+                    raise RuntimeError(status["comment"])
+                return msg["d"].get("responseData", {})
