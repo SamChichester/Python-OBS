@@ -53,3 +53,42 @@ class Source:
 
     async def translate_down(self, pixels_y):
         await self.translate(0, pixels_y)
+
+    
+    async def rotate(self, degrees):
+        data = await self._client.request(
+            "GetSceneItemId",
+            {
+                "sceneName": self.scene_name,
+                "sourceName": self.source_name
+            }
+        )
+        item_id = data["sceneItemId"]
+
+        transform = await self._client.request(
+            "GetSceneItemTransform",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id
+            }
+        )
+        current_rotation = transform["sceneItemTransform"]["rotation"]
+
+        await self._client.request(
+            "SetSceneItemTransform",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemTransform": {
+                    "rotation": (current_rotation + degrees) % 360,
+                }
+            }
+        )
+
+
+    async def rotate_clockwise(self, degrees):
+        await self.rotate(degrees)
+
+
+    async def rotate_counterclockwise(self, degrees):
+        await self.rotate(-degrees)
