@@ -207,6 +207,44 @@ class Source:
     async def crop_top(self, pixels):
         await self.crop(0, 0, 0, pixels)
 
+    # Visibility
+    async def hide(self):
+        item_id = await self._get_scene_item_id()
+
+        await self._client.request(
+            "SetSceneItemEnabled",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemEnabled": False
+            }
+        )
+
+    async def show(self):
+        item_id = await self._get_scene_item_id()
+
+        await self._client.request(
+            "SetSceneItemEnabled",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemEnabled": True
+            }
+        )
+
+    async def toggle(self):
+        item_id = await self._get_scene_item_id()
+        isEnabled = await self._get_scene_item_enabled(item_id)
+
+        await self._client.request(
+            "SetSceneItemEnabled",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemEnabled": not isEnabled
+            }
+        )
+
 
     # Helper functions:
     async def _get_scene_item_id(self):
@@ -218,6 +256,16 @@ class Source:
             }
         )
         return data["sceneItemId"]
+    
+    async def _get_scene_item_enabled(self, item_id):
+        data = await self._client.request(
+            "GetSceneItemEnabled",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id
+            }
+        )
+        return data["sceneItemEnabled"]
     
     async def _get_scene_item_transform(self, item_id):
         transform = await self._client.request(
