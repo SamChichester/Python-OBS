@@ -1,3 +1,5 @@
+from py_obs.exceptions import OBSRequestError
+
 
 class Source:
     def __init__(self, client, scene_name, source_name):
@@ -288,15 +290,21 @@ class Source:
 
     # Helper functions:
     async def _get_scene_item_id(self):
-        data = await self._client.request(
-            "GetSceneItemId",
-            {
-                "sceneName": self.scene_name,
-                "sourceName": self.source_name
-            }
-        )
-        return data["sceneItemId"]
-    
+        try:
+            data = await self._client.request(
+                "GetSceneItemId",
+                {
+                    "sceneName": self.scene_name,
+                    "sourceName": self.source_name
+                }
+            )
+            return data["sceneItemId"]
+        
+        except RuntimeError as e:
+            raise OBSRequestError(
+                f"Failed to find source '{self.source_name}' in scene '{self.scene_name}': {e}"
+            ) from e
+        
 
     async def _get_scene_item_enabled(self, item_id):
         data = await self._client.request(
