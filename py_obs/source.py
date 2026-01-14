@@ -11,7 +11,7 @@ class Source:
             "GetSceneItemId",
             {
                 "sceneName": self.scene_name,
-                "sourceName": self.scene_name
+                "sourceName": self.source_name
             }
         )
         item_id = data["sceneItemId"]

@@ -4,8 +4,8 @@ core.py
 High-level client for communicating with OBS Studio.
 """
 
-from .client import OBSClient
-from .scene import Scene
+from py_obs.client import OBSClient
+from py_obs.scene import Scene
 
 
 class OBS:
@@ -14,7 +14,7 @@ class OBS:
 
 
     async def connect(self):
-        self._client.connect()
+        await self._client.connect()
 
 
     def scene(self, name):
