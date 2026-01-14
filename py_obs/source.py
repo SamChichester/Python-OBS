@@ -232,16 +232,55 @@ class Source:
             }
         )
 
-    async def toggle(self):
+    async def toggle_visiblity(self):
         item_id = await self._get_scene_item_id()
-        isEnabled = await self._get_scene_item_enabled(item_id)
+        is_enabled = await self._get_scene_item_enabled(item_id)
 
         await self._client.request(
             "SetSceneItemEnabled",
             {
                 "sceneName": self.scene_name,
                 "sceneItemId": item_id,
-                "sceneItemEnabled": not isEnabled
+                "sceneItemEnabled": not is_enabled
+            }
+        )
+
+    # Locking
+
+    async def lock(self):
+        item_id = await self._get_scene_item_id()
+
+        await self._client.request(
+            "SetSceneItemLocked",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemLocked": True
+            }
+        )
+
+    async def unlock(self):
+        item_id = await self._get_scene_item_id()
+
+        await self._client.request(
+            "SetSceneItemLocked",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemLocked": False
+            }
+        )
+
+    async def toggle_lock(self):
+        item_id = await self._get_scene_item_id()
+        is_locked = await self._get_scene_item_locked(item_id)
+
+        await self._client.request(
+            "SetSceneItemLocked",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemLocked": not is_locked
             }
         )
 
@@ -257,6 +296,7 @@ class Source:
         )
         return data["sceneItemId"]
     
+
     async def _get_scene_item_enabled(self, item_id):
         data = await self._client.request(
             "GetSceneItemEnabled",
@@ -267,6 +307,18 @@ class Source:
         )
         return data["sceneItemEnabled"]
     
+
+    async def _get_scene_item_locked(self, item_id):
+        data = await self._client.request(
+            "GetSceneItemLocked",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id
+            }
+        )
+        return data["sceneItemLocked"]
+    
+
     async def _get_scene_item_transform(self, item_id):
         transform = await self._client.request(
             "GetSceneItemTransform",
@@ -276,5 +328,3 @@ class Source:
             }
         )
         return transform["sceneItemTransform"]
-    
-
