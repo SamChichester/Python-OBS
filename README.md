@@ -55,17 +55,17 @@ obs.connect()
 
 ## Documentation
 
-- [OBS Clients](###obs-clients)
-  - [Synchronous Client](####synchronous-client)
-  - [Asynchronous Client](####asynchronous-client)
-- [Scenes](###scenes)
-- [Sources](###sources)
-  - [Translation](####translation)
-  - [Rotation](####rotation)
-  - [Scale](####scale)
-  - [Crop](####crop)
-  - [Visibility](####crop)
-  - [Locking](####locking)
+- [OBS Clients](#obs-clients)
+  - [Synchronous Client](#synchronous-client)
+  - [Asynchronous Client](#asynchronous-client)
+- [Scenes](#scenes)
+- [Sources](#sources)
+  - [Translation](#translation)
+  - [Rotation](#rotation)
+  - [Scale](#scale)
+  - [Crop](#crop)
+  - [Visibility](#crop)
+  - [Locking](#locking)
 
 ### OBS Clients
 
