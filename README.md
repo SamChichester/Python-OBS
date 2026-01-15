@@ -60,6 +60,12 @@ obs.connect()
   - [Asynchronous Client](####asynchronous-client)
 - [Scenes](###scenes)
 - [Sources](###sources)
+  - [Translation](####translation)
+  - [Rotation](####rotation)
+  - [Scale](####scale)
+  - [Crop](####crop)
+  - [Visibility](####crop)
+  - [Locking](####locking)
 
 ### OBS Clients
 
@@ -102,7 +108,144 @@ if __name__ == "__main__":
 
 ### Scenes
 
+To set the current scene use
+
+```python
+obs.set_scene(SCENE_NAME)
+```
+
+To create a new scene use
+
+```python
+obs.create_scene(SCENE_NAME)
+```
+
+To delete a scene use
+
+```python
+obs.delete_scene(SCENE_NAME)
+```
+
 ### Sources
+
+#### Translation
+
+To set the position of a source use
+
+```python
+source.set_position(POSITION_X, POSITION_Y)
+```
+
+To translate a source from its current position use
+
+```python
+source.translate(PIXELS_X, PIXELS_Y)
+```
+
+To translate in a specific direction use
+
+```python
+source.translate_right(PIXELS_X)
+source.translate_left(PIXELS_X)
+source.translate_up(PIXELS_Y)
+source.translate_down(PIXELS_Y)
+```
+
+#### Rotation
+
+To set the specific orientation of a source use
+
+```python
+source.set_rotation(ORIENTATION)
+```
+
+To rotate a source from its current orientation use
+
+```python
+source.rotate(DEGREES)
+```
+
+To rotate a source in a specific direction use
+
+```python
+source.rotate_clockwise(DEGREES)
+source.rotate_counterclockwise(DEGREES)
+```
+
+#### Scale
+
+To set the scale of a source use
+
+```python
+source.set_scale(SCALE_X, SCALE_Y)
+source.set_scale_X(SCALE_X)
+source.set_scale_Y(SCALE_Y)
+```
+
+To scale a source from its current size use
+
+```python
+source.scale(FACTOR_X, FACTOR_Y)
+source.scale_X(FACTOR_X)
+source.scale_Y(FACTOR_Y)
+```
+
+#### Crop
+
+To crop a source use
+
+```python
+source.crop(BOTTOM_PIXELS, LEFT_PIXELS, RIGHT_PIXELS, TOP_PIXELS)
+```
+
+To set crop from one specific direction use
+
+```python
+source.crop_bottom(PIXELS)
+source.crop_left(PIXELS)
+source.crop_right(PIXELS)
+source.crop_top(PIXELS)
+```
+
+#### Visibility
+
+To hide a source use
+
+```python
+source.hide()
+```
+
+To show a source use
+
+```python
+source.show()
+```
+
+To toggle visibility on a source use
+
+```python
+source.toggle_visibility()
+```
+
+#### Locking
+
+To lock a source use
+
+```python
+source.lock()
+```
+
+To unlock a source use
+
+```python
+source.unlock()
+```
+
+To toggle locking on a source use
+
+```python
+source.toggle_lock()
+```
 
 ## Example Code
 
@@ -134,6 +277,6 @@ obs = OBS()
 obs.connect()
 
 main = obs.scene("Main")
-camera = main.source("Camera")
-camera.set_rotation(90)
+source = main.source("Camera")
+source.set_rotation(90)
 ```
