@@ -66,6 +66,7 @@ obs.connect()
   - [Crop](#crop)
   - [Visibility](#crop)
   - [Locking](#locking)
+  - [Setting Size](#setting-size)
 
 ### OBS Clients
 
@@ -269,6 +270,33 @@ To toggle locking on a source use
 
 ```python
 source.toggle_lock()
+```
+
+#### Setting Size
+
+To explicitly state the width and height of a source use
+
+```
+source.set_size(WIDTH_PIXELS, HEIGHT_PIXELS)
+```
+
+To explicitly state just the width or the height of a source use
+
+```
+source.set_width(PIXELS)
+source.set_height(PIXELS)
+```
+
+To stretch the source to fit the screen use
+
+```
+source.stretch_to_screen()
+```
+
+To fit the source to the screen use
+
+```
+source.fit_to_screen()
 ```
 
 ## Example Code

@@ -288,6 +288,89 @@ class Source:
         )
 
 
+    # Set width & height
+    async def set_size(self, width, height):
+        item_id = await self._get_scene_item_id()
+        native_w, native_h = await self._get_source_native_size(item_id)
+
+        scale_x = width / native_w
+        scale_y = height / native_h
+
+        await self._client.request(
+            "SetSceneItemTransform",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemTransform": {
+                    "scaleX": scale_x,
+                    "scaleY": scale_y
+                }
+            }
+        )
+
+    
+    async def set_width(self, width):
+        item_id = await self._get_scene_item_id()
+        native_w, _ = await self._get_source_native_size(item_id)
+
+        scale_x = width / native_w
+
+        await self._client.request(
+            "SetSceneItemTransform",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemTransform": {
+                    "scaleX": scale_x
+                }
+            }
+        )
+
+    
+    async def set_height(self, height):
+        item_id = await self._get_scene_item_id()
+        _, native_h = await self._get_source_native_size(item_id)
+
+        scale_y = height / native_h
+
+        await self._client.request(
+            "SetSceneItemTransform",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemTransform": {
+                    "scaleY": scale_y
+                }
+            }
+        )
+
+
+    # Stretch & fit to screen
+    async def stretch_to_screen(self):
+        canvas_w, canvas_h = await self._get_canvas_size()
+        await self.set_size(canvas_w, canvas_h)
+
+
+    async def fit_to_screen(self):
+        canvas_w, canvas_h = await self._get_canvas_size()
+
+        item_id = await self._get_scene_item_id()
+        native_w, native_h = await self._get_source_native_size(item_id)
+        scale = min(canvas_w / native_w, canvas_h / native_h)
+
+        await self._client.request(
+            "SetSceneItemTransform",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id,
+                "sceneItemTransform": {
+                    "scaleX": scale,
+                    "scaleY": scale
+                }
+            }
+        )
+
+
     # Helper functions:
     async def _get_scene_item_id(self):
         try:
@@ -337,3 +420,21 @@ class Source:
             }
         )
         return transform["sceneItemTransform"]
+    
+
+    async def _get_source_native_size(self, item_id):
+        transform = await self._client.request(
+            "GetSceneItemTransform",
+            {
+                "sceneName": self.scene_name,
+                "sceneItemId": item_id
+            }
+        )
+
+        t = transform["sceneItemTransform"]
+        return t["sourceWidth"], t["sourceHeight"]
+
+
+    async def _get_canvas_size(self):
+        data = await self._client.request("GetVideoSettings")
+        return data["baseWidth"], data["baseHeight"]
