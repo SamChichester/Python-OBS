@@ -126,6 +126,30 @@ To delete a scene use
 obs.delete_scene(SCENE_NAME)
 ```
 
+To create a new source in a scene use
+
+```
+scene.create_source(NAME, KIND, SETTINGS, ENABLED)
+```
+
+For example if you want to create an image source use
+
+```
+obs.scene("Main").create_source(
+    name="ImageSource", 
+    kind="image_source",
+    settings={
+        "file": "test.png"
+    },
+)
+```
+
+To delete a source in a scene use
+
+```
+scene.delete_source(NAME)
+```
+
 ### Sources
 
 #### Translation

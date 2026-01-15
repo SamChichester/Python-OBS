@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "python_obs"
-version = "1.1.1"
+version = "1.2.0"
 description = "A Python package for interacting with OBS Studio."
 readme = "README.md"
 authors = [{ name="Samuel Chichester", email="samuelchichester05@gmail.com" }]
