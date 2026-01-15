@@ -1,4 +1,4 @@
-# py-obs
+# python-obs
 
 ## Table of Contents
 
@@ -9,16 +9,16 @@
 
 ## Introduction
 
-py-obs is a Python package that wraps the OBS WebSocket API functionality in order to provide easy programmatic access to OBS resources using Python. This package is designed to abstract as much configuration away so content creators can quickly and easily write scripts to automate tasks in OBS studio. Having dabbled in streaming myself, I was looking for a package like this with very clear documentation; this package was designed with my own experiences and desires in mind. This package will be open to contributions soon.
+python-obs is a Python package that wraps the OBS WebSocket API functionality in order to provide easy programmatic access to OBS resources using Python. This package is designed to abstract as much configuration away so content creators can quickly and easily write scripts to automate tasks in OBS studio. Having dabbled in streaming myself, I was looking for a package like this with very clear documentation; this package was designed with my own experiences and desires in mind. This package will be open to contributions soon.
 
 ## Getting Started
 
 ### Installation
 
-Getting started with py-obs is very simple. Make sure you have the package installed with
+Getting started with python-obs is very simple. Make sure you have the package installed with
 
 ```
-pip install py-obs
+pip install python-obs
 ```
 
 ### OBS Studio Setup
@@ -29,13 +29,13 @@ Under `Plugin Settings` make sure `Enable WebSocket server` is checked.
 
 ![WebSocket Server Settings](https://res.cloudinary.com/dvsvlcbec/image/upload/v1768430570/Screenshot_2026-01-14_at_5.42.31_PM_ffemfv.png "Plugin Settings")
 
-Under `Server Settings` select a `Server Port` (`4455` is recommended). If you desire to set a password, check the `Enable Authentication` checkbox and set a strong `Server Password`. Keep all of this information, since it will be required to connect py-obs to your OBS WebSocket Server.
+Under `Server Settings` select a `Server Port` (`4455` is recommended). If you desire to set a password, check the `Enable Authentication` checkbox and set a strong `Server Password`. Keep all of this information, since it will be required to connect python-obs to your OBS WebSocket Server.
 
 ![WebSocket Server Settings](https://res.cloudinary.com/dvsvlcbec/image/upload/v1768430570/Screenshot_2026-01-14_at_5.42.40_PM_y9emxb.png "Server Settings")
 
-### py-obs Setup
+### python-obs Setup
 
-Now that your OBS WebSocket Server is setup, you can connect to it via py-obs.
+Now that your OBS WebSocket Server is setup, you can connect to it via python-obs.
 
 ```python
 from py_obs.clients import OBS
@@ -69,7 +69,7 @@ obs.connect()
 
 ### OBS Clients
 
-py-obs provides both synchronous and asynchronous clients.
+python-obs provides both synchronous and asynchronous clients.
 
 #### Synchronous Client
 
@@ -249,13 +249,13 @@ source.toggle_lock()
 
 ## Example Code
 
-Using py-obs is very easy. Make sure you have the package installed with
+Using python-obs is very easy. Make sure you have the package installed with
 
 ```
-pip install py-obs
+pip install python-obs
 ```
 
-Below is some example code to demonstrate basic operations in py-obs.
+Below is some example code to demonstrate basic operations in python-obs.
 
 Set the rotation of the `Camera` source in the `Main` scene to 90 degrees.
 
