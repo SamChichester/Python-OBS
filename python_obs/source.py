@@ -1,4 +1,4 @@
-from py_obs.exceptions import OBSRequestError
+from python_obs.exceptions import OBSRequestError
 
 
 class Source:

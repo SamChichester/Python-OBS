@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "py_obs"
+name = "python_obs"
 version = "1.0.0"
 description = "A Python package for interacting with OBS Studio."
 readme = "README.md"
