@@ -4,10 +4,10 @@ clients.py
 High-level clients for communicating with OBS Studio.
 """
 
-from py_obs.client import OBSClient
-from py_obs.scene import Scene
-from py_obs.exceptions import OBSRequestError
-from py_obs.sync_utils import SyncProxy
+from python_obs.client import OBSClient
+from python_obs.scene import Scene
+from python_obs.exceptions import OBSRequestError
+from python_obs.sync_utils import SyncProxy
 
 class OBS:
     def __init__(self, host="localhost", port=4455, password=None):

@@ -1,4 +1,4 @@
-from py_obs.source import Source
+from python_obs.source import Source
 
 
 class Scene:
