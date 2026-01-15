@@ -38,7 +38,7 @@ Under `Server Settings` select a `Server Port` (`4455` is recommended). If you d
 Now that your OBS WebSocket Server is setup, you can connect to it via python-obs.
 
 ```python
-from py_obs.clients import OBS
+from python_obs.clients import OBS
 
 obs = OBS()
 obs.connect()
@@ -47,7 +47,7 @@ obs.connect()
 `OBS()` takes three parameters: `host` (default is `localhost`), `port` (default if `4455`), and `password` (default is `None`, meaning authentication is not enabled on the OBS WebSocket Server). Below is an example with a custom port and password.
 
 ```python
-from py_obs.clients import OBS
+from python_obs.clients import OBS
 
 obs = OBS(port=8000, password="StrongPassword1234!")
 obs.connect()
@@ -75,10 +75,10 @@ python-obs provides both synchronous and asynchronous clients.
 
 The synchronous client is the default client. It is built on top of the asynchronous client. The synchronous client is ideal for simple use cases, like running individual commands.
 
-To use the synchronous client import the `OBS` class from `py_obs.clients`
+To use the synchronous client import the `OBS` class from `python_obs.clients`
 
 ```python
-from py_obs.clients import OBS
+from python_obs.clients import OBS
 
 obs = OBS()
 obs.connect()
@@ -90,11 +90,11 @@ obs.scene("Main").source("Camera").set_rotation(90)
 
 The asynchronous client is the recommended client for more advanced use cases, like FastAPI integration.
 
-To use the asynchronous client import the `OBSAsync` class from `py_obs.clients`
+To use the asynchronous client import the `OBSAsync` class from `python_obs.clients`
 
 ```python
 import asyncio
-from py_obs.clients import OBSAsync
+from python_obs.clients import OBSAsync
 
 async def main():
     obs = OBSAsync()
@@ -260,7 +260,7 @@ Below is some example code to demonstrate basic operations in python-obs.
 Set the rotation of the `Camera` source in the `Main` scene to 90 degrees.
 
 ```python
-from py_obs.clients import OBS
+from python_obs.clients import OBS
 
 obs = OBS()
 obs.connect()
@@ -271,7 +271,7 @@ obs.scene("Main").source("Camera").set_rotation(90)
 Alternatively you can format the same code in this format.
 
 ```python
-from py_obs.clients import OBS
+from python_obs.clients import OBS
 
 obs = OBS()
 obs.connect()
