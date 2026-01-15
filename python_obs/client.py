@@ -5,6 +5,8 @@ Low-level WebSocket client for communicating with OBS Studio via the
 OBS WebSocket v5 protocol.
 """
 
+import base64
+import hashlib
 import json
 import uuid
 import websockets
@@ -23,11 +25,29 @@ class OBSClient:
         if hello["op"] !=  0:
             raise RuntimeError("Invalid OBS hello.")
 
+        identify_data = {"rpcVersion": 1}
+
+        auth = hello["d"].get("authentication")
+        if auth:
+            if not self.password:
+                raise RuntimeError("OBS requires authentication but no password was provided.")
+
+            challenge = auth["challenge"]
+            salt = auth["salt"]
+
+            secret = base64.b64encode(
+                hashlib.sha256((self.password + salt).encode()).digest()
+            ).decode()
+
+            auth_response = base64.b64encode(
+                hashlib.sha256((secret + challenge).encode()).digest()
+            ).decode()
+
+            identify_data["authentication"] = auth_response
+
         identify = {
             "op": 1,
-            "d": {
-                "rpcVersion": 1,
-            }
+            "d": identify_data
         }
 
         await self.ws.send(json.dumps(identify))
